@@ -33,7 +33,7 @@ class PuzzleControl extends React.Component{
   }
 
   handleGuess = (letter) => {
-    if (this.state.guessesLeft > 1) {
+    if (this.state.guessesLeft >= 1) {
       if (!this.state.lettersGuessed.includes(letter))
       {
         this.checkGuess(letter);
