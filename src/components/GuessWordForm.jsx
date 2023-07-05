@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 function GuessWordForm(props) {
   function handleGuessSubmit(event) {
     event.preventDefault();
-    props.guessLetter(event.target.letter.value)
+    props.guessLetter(event.target.letter.value.toUpperCase())
   }
 
     return (
