@@ -4,6 +4,7 @@ function GuessWordForm(props) {
   function handleGuessSubmit(event) {
     event.preventDefault();
     props.guessLetter(event.target.letter.value.toUpperCase())
+    event.target.letter.value = ""
   }
 
     return (

@@ -34,13 +34,10 @@ class PuzzleControl extends React.Component{
 
   handleGuess = (letter) => {
     if (this.state.guessesLeft > 1) {
-      const addLetter = this.state.lettersGuessed.concat(letter);
-      const updateGuesses = this.state.guessesLeft - 1;
-      this.checkGuess(letter);
-      this.setState({
-        lettersGuessed: addLetter,
-        guessesLeft: updateGuesses
-      });
+      if (!this.state.lettersGuessed.includes(letter))
+      {
+        this.checkGuess(letter);
+      }
     } else {
       this.setState({
         formVisibleOnPage: false,
@@ -50,8 +47,17 @@ class PuzzleControl extends React.Component{
   }
 
   checkGuess = (letter) => {
+    const addLetter = this.state.lettersGuessed.concat(letter);
     const result = (this.state.word.includes(letter)) ? true : false;
-    this.setState({guessResult: result});
+    this.setState({
+      lettersGuessed: addLetter,
+      guessResult: result});
+    if (!result) {
+      const updateGuesses = this.state.guessesLeft - 1;
+      this.setState({
+        guessesLeft: updateGuesses
+      });
+    }
   }
 
   render(){
