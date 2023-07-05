@@ -1,6 +1,7 @@
 import React from "react";
 import { words } from "./words";
 import GuessWordForm from "./GuessWordForm";
+import GuessResult from "./GuessResult";
 
 class PuzzleControl extends React.Component{
   constructor(props) {
@@ -21,7 +22,7 @@ class PuzzleControl extends React.Component{
   }
 
   handleStartGameClick = () => {
-    const newGameWord = words[Math.floor(Math.random() * words.length)]
+    const newGameWord = words[Math.floor(Math.random() * words.length)].toUpperCase();
     this.setState({
       formVisibleOnPage: true,
       gameEnd: false,
@@ -34,6 +35,7 @@ class PuzzleControl extends React.Component{
     if (this.state.guessesLeft > 1) {
       const addLetter = this.state.lettersGuessed.concat(letter);
       const updateGuesses = this.state.guessesLeft - 1;
+      this.checkGuess(letter);
       this.setState({
         lettersGuessed: addLetter,
         guessesLeft: updateGuesses
@@ -46,12 +48,23 @@ class PuzzleControl extends React.Component{
     }
   }
 
+  checkGuess = (letter) => {
+    const result = (this.state.word.includes(letter)) ? true : false;
+    this.setState({guessResult: result});
+  }
+
   render(){
     let currentlyVisibleState = null;
 
     if (this.state.formVisibleOnPage) {
-      currentlyVisibleState = <GuessWordForm 
-        guessLetter={this.handleGuess} />
+      currentlyVisibleState = 
+      <div>
+        <GuessResult 
+          result={this.state.guessResult}
+          guesses={this.state.guessesLeft} />
+        <GuessWordForm 
+          guessLetter={this.handleGuess} />
+      </div>
     } else if (this.state.gameEnd) {
       currentlyVisibleState = 
       <div>
@@ -63,7 +76,6 @@ class PuzzleControl extends React.Component{
       <div>
         <h1>GUESS THE CHEESE</h1>
         <button onClick={this.handleStartGameClick}>Start New Game</button>
-        <p>Guesses Left: {this.state.guessesLeft}</p>
         {currentlyVisibleState}
       </div>
     )
