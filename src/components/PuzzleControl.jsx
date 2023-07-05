@@ -27,6 +27,7 @@ class PuzzleControl extends React.Component{
       formVisibleOnPage: true,
       gameEnd: false,
       guessesLeft: 6,
+      lettersGuessed: [],
       word: newGameWord});
     console.log(this.state.word)
   }
@@ -60,6 +61,8 @@ class PuzzleControl extends React.Component{
       currentlyVisibleState = 
       <div>
         <GuessResult 
+          allGuesses={this.state.lettersGuessed}
+          word={this.state.word}
           result={this.state.guessResult}
           guesses={this.state.guessesLeft} />
         <GuessWordForm 
