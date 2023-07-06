@@ -13,12 +13,7 @@ class PuzzleControl extends React.Component{
       guessesLeft: null,
       guessResult: null,
       word: null,
-      currentWordWithGuesses: null
     }
-  }
-
-  componentDidUpdate() {
-    console.log("componenet updated")
   }
 
   handleStartGameClick = () => {
