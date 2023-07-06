@@ -14,17 +14,24 @@ describe("lettersGuessedReducer", () => {
     it('should successfully add new guess data to lettersGuessed', () => {
         action = {
             type: 'ADD_GUESS',
-            guessData
+            letter: guessData
         };
 
-        expect(lettersGuessedReducer(guessData, action)).toEqual([guessData])
+        expect(lettersGuessedReducer([], action)).toEqual(['E'])
     });
 
     it('should successfully add another guess to array of data', () => {
         action = {
             type: 'ADD_GUESS',
-            guessData
+            letter: guessData
         };
-        expect(lettersGuessedReducer([...currentData, guessData], action)).toEqual([...currentData, guessData])
+        expect(lettersGuessedReducer([...currentData], action)).toEqual([...currentData, guessData])
+    });
+
+    it('should successfully clear the array', () => {
+        action = {
+            type: "CLEAR_GUESSES"
+        }
+        expect(lettersGuessedReducer(currentData, action)).toEqual([]);
     });
 });
