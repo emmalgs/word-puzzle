@@ -11,8 +11,9 @@ describe("setGameWordReducer", () => {
 
   it('should set the word passed as state when action SET_WORD is called', () => {
     action = {
-      type: 'SET_WORD'
+      type: 'SET_WORD',
+      word: 'cheese'
     }
-    expect(setGameWordReducer('cheese', action)).toEqual('cheese')
+    expect(setGameWordReducer('', action)).toEqual('cheese')
   });
 });

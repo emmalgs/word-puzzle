@@ -1,7 +1,7 @@
 const reducer = (state = '', action) => {
   switch (action.type) {
     case 'SET_WORD':
-      return state
+      return action.word
     default:
       return state;
   }
