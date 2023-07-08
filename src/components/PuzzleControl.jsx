@@ -2,6 +2,9 @@ import React from "react";
 import { words } from "./words";
 import GuessWordForm from "./GuessWordForm";
 import GuessResult from "./GuessResult";
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+import * as a from './../actions';
 
 class PuzzleControl extends React.Component{
   constructor(props) {
