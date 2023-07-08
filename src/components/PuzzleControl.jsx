@@ -13,6 +13,7 @@ class PuzzleControl extends React.Component{
       guessesLeft: null,
       guessResult: null,
       word: null,
+      gameWin: false
     }
   }
 
@@ -23,7 +24,9 @@ class PuzzleControl extends React.Component{
       gameEnd: false,
       guessesLeft: 6,
       lettersGuessed: [],
-      word: newGameWord});
+      word: newGameWord,
+      gameWin: false
+    });
     console.log(this.state.word)
   }
 
@@ -38,27 +41,40 @@ class PuzzleControl extends React.Component{
         formVisibleOnPage: false,
         gameEnd: true,
         guessesLeft: 0})
+      }
     }
-  }
-
-  checkGuess = (letter) => {
-    const addLetter = this.state.lettersGuessed.concat(letter);
-    const result = (this.state.word.includes(letter)) ? true : false;
-    this.setState({
-      lettersGuessed: addLetter,
-      guessResult: result});
-    if (!result) {
-      const updateGuesses = this.state.guessesLeft - 1;
+    
+    checkGuess = (letter) => {
+      const addLetter = this.state.lettersGuessed.concat(letter);
+      const result = (this.state.word.includes(letter)) ? true : false;
       this.setState({
-        guessesLeft: updateGuesses
-      });
+        lettersGuessed: addLetter,
+        guessResult: result});
+      const checkForWin = this.state.word.replace(/\s/g, "").split("").every(letter => this.state.lettersGuessed.includes(letter));
+      if (checkForWin) {
+        this.setState({
+          gameWin: true,
+          formVisibleOnPage: false
+        });
+      }
+      if (!result) {
+        const updateGuesses = this.state.guessesLeft - 1;
+        this.setState({
+          guessesLeft: updateGuesses
+        });
+      }
     }
-  }
 
   render(){
     let currentlyVisibleState = null;
 
-    if (this.state.formVisibleOnPage) {
+    if (this.state.gameWin) {
+      currentlyVisibleState = 
+      <div>
+        <h1>YOU WIN! The cheese was {this.state.word}</h1>
+        <button onClick={this.handleStartGameClick}>Play again?</button>
+      </div>
+    } else if (this.state.formVisibleOnPage) {
       currentlyVisibleState = 
       <div>
         <GuessResult 
@@ -68,11 +84,11 @@ class PuzzleControl extends React.Component{
           guesses={this.state.guessesLeft} />
         <GuessWordForm 
           guessLetter={this.handleGuess} />
-      </div>
+      </div> 
     } else if (this.state.gameEnd) {
       currentlyVisibleState = 
       <div>
-        <h1>Out of guesses! Game over!</h1>
+        <h1>Out of guesses! The cheese was {this.state.word}.</h1>
         <button onClick={this.handleStartGameClick}>Start again?</button>
       </div>
     }
