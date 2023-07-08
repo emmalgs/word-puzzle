@@ -9,29 +9,27 @@ import * as a from './../actions';
 class PuzzleControl extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      formVisibleOnPage: false,
-      gameEnd: false,
-      lettersGuessed: [],
-      guessesLeft: null,
-      guessResult: null,
-      word: null,
-    }
   }
 
   handleStartGameClick = () => {
     const newGameWord = words[Math.floor(Math.random() * words.length)].toUpperCase();
-    this.setState({
-      formVisibleOnPage: true,
-      gameEnd: false,
-      guessesLeft: 6,
-      lettersGuessed: [],
-      word: newGameWord});
-    console.log(this.state.word)
+    // eslint-disable-next-line react/prop-types
+    const { dispatch } = this.props;
+    const action1 = a.setWord(newGameWord);
+    dispatch(action1);
+
+    const action2 = a.startGame();
+    dispatch(action2);
+
+    const action3 = a.clearGuesses();
+    dispatch(action3);
+
+    const action4 = a.toggleForm();
+    dispatch(action4);
   }
 
   handleGuess = (letter) => {
-    if (this.state.guessesLeft >= 1) {
+    if (this.props.guesses >= 1) {
       if (!this.state.lettersGuessed.includes(letter))
       {
         this.checkGuess(letter);
@@ -89,4 +87,20 @@ class PuzzleControl extends React.Component{
   }
 }
 
+PuzzleControl.propTypes = {
+  guesses: PropTypes.number,
+  word: PropTypes.string,
+  lettersGuessed: PropTypes.array
+}
+
+const mapStateToProps = state => {
+  return {
+    guesses: state.guesses,
+    word: state.word,
+    lettersGuessed: state.lettersGuessed
+  }
+}
+
+// eslint-disable-next-line no-class-assign
+PuzzleControl = connect(mapStateToProps)(PuzzleControl);
 export default PuzzleControl;

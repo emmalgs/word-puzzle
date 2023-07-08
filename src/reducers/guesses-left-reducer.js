@@ -1,16 +1,11 @@
-const initialState = {
-  guesses: 6
-};
-
-const reducer = (state = initialState, action) => {
+const reducer = (state = 6, action) => {
   switch (action.type) {
     case 'WRONG_GUESS':
-      return {
-        ...state,
-        guesses: state.guesses - 1
-      };
+      return state - 1;
     case 'START_GAME':
-      return initialState;
+      return 6;
+    case 'END_GAME':
+      return 0;
     default:
       return state;
   }
